@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Е-Декларації</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <style>
+        .form {
+            margin: 50px 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <form role="form" class="form">
+            <div class="form-group">
+                <label for="input-name">Введіть ім'я</label>
+                <input type="text" class="form-control" id="input-name" placeholder="Ківалов Сергій Васильович">
+            </div>
+        
+            <button class="btn btn-primary" id="submit-btn">Шукати</button>
+        </form>
+        <section class="results hidden">
+            <section>
+                <h1>Нерухомість</h1>
+                <table class="table table-hover" id="real-estate-table">
+                    <thead>
+                        <tr>
+                            <th>Вид об'єкта</th>
+                            <th>Загальна площа (м<sup>2</sup>)</th>
+                            <th>Тип права</th>
+                            <th>% власності</th>
+                            <th>Власник</th>
+                        </tr>
+                    </thead>
+                    <tbody id="real-estate">
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h1>Транспортні засоби</h1>
+                <h3>
+                    К-сть: <span id="transport-amount"></span>, в т.ч у власності: <span id="my-transport-amount"></span>
+                </h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Вид об'єкта</th>
+                            <th>Марка + модель</th>
+                            <th>Рік випуску</th>
+                            <th>Тип права</th>
+                            <th>Власник</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transport">
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h1>Доходи</h1>
+
+                <h3>Сума: <span id="money-amount"></span></h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Джерело доходу</th>
+                            <th>Найменування</th>
+                            <th>Вид доходу</th>
+                            <th>Розмір</th>
+                            <th>Отримувач доходів</th>
+                        </tr>
+                    </thead>
+                    <tbody id="money">
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h1>Грошові активи</h1>
+
+                <h3>Сума: <span id="exchange-money-amount"></span></h3>
+            </section>
+        </section>
+    </section>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
