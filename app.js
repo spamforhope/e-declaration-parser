@@ -21,7 +21,6 @@ const errorHandler = error => console.log('API_ERROR', error);
 let dataArr = [];
 
 function callNazkApi (items) {
-  console.log(items);
   return Promise.all(items.map(item => axios.get(`${API_URL}${item.id}`).then(response => response.data)));
 }
 
@@ -34,7 +33,28 @@ app.get('/parse', (req, res) => {
   const fileData = JSON.parse(fs.readFileSync('PERSON.json', 'utf8'));
 
   callNazkApi(fileData.items).then(result => {
-    res.send({documents: result});
+    const declarations = [];
+    const specifications = [];
+
+    result.map(doc => {
+      const checkingKey = doc.data.step_0;
+
+      if (checkingKey.changesYear) {
+        specifications.push(doc)
+      } else if (checkingKey.declarationType) {
+        declarations.push(doc);
+      }
+    });
+
+    declarations.sort((a,b) => {
+      // formatting dates to 'year.month.day'
+      const firstDate = a.created_date.split('.').reverse().join('.');
+      const secondDate = b.created_date.split('.').reverse().join('.');
+
+      return new Date(secondDate).getTime() - new Date(firstDate).getTime();
+    });
+
+    res.send({declaration: declarations[0].data, specifications});
   }).catch(err => res.send(err));
 });
 

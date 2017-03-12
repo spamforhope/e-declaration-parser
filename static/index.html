@@ -5,21 +5,24 @@
     <title>Е-Декларації</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-    <style>
-        .form {
-            margin: 50px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <section class="container">
-        <form role="form" class="form">
+        <div class="actions">
             <button class="btn btn-primary btn-lg" id="submit-btn">Обробити дані з файлу</button>
-        </form>
 
-        <h1 id="main-info"></h1>
+            <div class="sk-folding-cube hidden" id="loader">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+            </div>
+        </div>
 
-        <section class="results hidden">
+        <section id="results" class="hidden">
+            <h1 id="main-info"></h1>
+            
             <section>
                 <h1>Нерухомість</h1>
                 <table class="table table-hover" id="real-estate-table">
