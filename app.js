@@ -34,7 +34,7 @@ app.get('/parse', (req, res) => {
   const fileData = JSON.parse(fs.readFileSync('PERSON.json', 'utf8'));
 
   callNazkApi(fileData.items).then(result => {
-    res.send({data: result});
+    res.send({documents: result});
   }).catch(err => res.send(err));
 });
 
