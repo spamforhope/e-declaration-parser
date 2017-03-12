@@ -1,25 +1,42 @@
 (function () {
     console.info('App started!');
     
-    const $submit = $('#submit-btn');
+    const $form = $('#search-form');
     const $loader = $('#loader');
     const $results = $('#results');
     const $realEstateTable = $('#real-estate-table');
+    const $input = $('#name-input');
 
-    $submit.on('click', () => {
-        $submit.addClass('hidden');
+    $form.on('submit', (e) => {
+        e.preventDefault();
+        
+        let value = $input.val().trim();
+
+        if (!value.length) {
+            return alert('Заповніть форму!');
+        }
+
+        value = value.replace(/ /g, '+');
+
+        $form.addClass('hidden');
         $loader.removeClass('hidden');
         $results.addClass('hidden');
 
-        axios.get('/parse')
+        axios.get(`/search/${value}`)
             .then(response => {
-                $submit.removeClass('hidden');
+                $form.removeClass('hidden');
                 $loader.addClass('hidden');
                 console.log(response);
 
                 parseData(response.data.declaration);
+                $input.val('');
             })
-            .catch(err => console.log('API_ERROR', err));
+            .catch(err => {
+                alert('Сталася помилка! Натисніть F12 для деталей.')
+                console.log('API_ERROR', err)
+                $form.removeClass('hidden');
+                $loader.addClass('hidden');
+            });
     });
 
     function parseData (data) {

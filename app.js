@@ -1,13 +1,12 @@
 const express = require('express'),
       path = require('path'),
-      fs = require('fs'),
       logger = require('morgan'),
       cookieParser = require('cookie-parser'),
       bodyParser = require('body-parser'),
       methodOverride = require('method-override'),
       axios = require('axios'),
       app = express(),
-      API_URL = 'https://public-api.nazk.gov.ua/v1/declaration/';
+      API_URL = 'https://public-api.nazk.gov.ua/v1/declaration';
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname + '/static')));
@@ -18,44 +17,49 @@ app.use(methodOverride("_method"));
 
 const errorHandler = error => console.log('API_ERROR', error);
 
-let dataArr = [];
-
 function callNazkApi (items) {
-  return Promise.all(items.map(item => axios.get(`${API_URL}${item.id}`).then(response => response.data)));
+  return Promise.all(items.map(item => axios.get(`${API_URL}/${item.id}`).then(response => response.data)));
 }
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'static', 'index.html'));
 });
 
-app.get('/parse', (req, res) => {
-  dataArr = [];
-  const fileData = JSON.parse(fs.readFileSync('PERSON.json', 'utf8'));
+app.get('/search/:name', (req, res) => {
+  axios.get(API_URL, {params: {q: req.params.name}}).then(response => {
+    if (response.data.items) {
+      callNazkApi(response.data.items).then(result => {
+        const declarations = [];
+        const specifications = [];
 
-  callNazkApi(fileData.items).then(result => {
-    const declarations = [];
-    const specifications = [];
+        result.map(doc => {
+          const checkingKey = doc.data.step_0;
 
-    result.map(doc => {
-      const checkingKey = doc.data.step_0;
+          if (checkingKey.changesYear) {
+            specifications.push(doc)
+          } else if (checkingKey.declarationType) {
+            declarations.push(doc);
+          }
+        });
 
-      if (checkingKey.changesYear) {
-        specifications.push(doc)
-      } else if (checkingKey.declarationType) {
-        declarations.push(doc);
-      }
-    });
+        declarations.sort((a,b) => {
+          // formatting dates to 'year.month.day'
+          const firstDate = a.created_date.split('.').reverse().join('.');
+          const secondDate = b.created_date.split('.').reverse().join('.');
 
-    declarations.sort((a,b) => {
-      // formatting dates to 'year.month.day'
-      const firstDate = a.created_date.split('.').reverse().join('.');
-      const secondDate = b.created_date.split('.').reverse().join('.');
+          return new Date(secondDate).getTime() - new Date(firstDate).getTime();
+        });
 
-      return new Date(secondDate).getTime() - new Date(firstDate).getTime();
-    });
+        res.send({declaration: declarations[0].data, specifications});
+      }).catch(err => res.send(err));
+    } else {
+      res.status(404).send();
+    }
+  }).catch(err => {
+    errorHandler(err);
+    res.status(404).send();
+  });
 
-    res.send({declaration: declarations[0].data, specifications});
-  }).catch(err => res.send(err));
 });
 
 // catch 404 and forward to error handler

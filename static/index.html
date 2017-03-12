@@ -10,7 +10,14 @@
 <body>
     <section class="container">
         <div class="actions">
-            <button class="btn btn-primary btn-lg" id="submit-btn">Обробити дані з файлу</button>
+            <form role="form" id="search-form">
+                <div class="form-group">
+                    <label for="name-input">Введіть ім'я</label>
+                    <input type="text" class="form-control" id="name-input" placeholder="ПІБ" name="name">
+                </div>
+            
+                <button type="submit" class="btn btn-primary">Шукати</button>
+            </form>
 
             <div class="sk-folding-cube hidden" id="loader">
                 <div class="sk-cube1 sk-cube"></div>
