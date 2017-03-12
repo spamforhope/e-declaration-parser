@@ -33,10 +33,13 @@
 
     function parseData () {
         console.log(data);
+        const userData = data.step_1;
         const $transportTable = document.getElementById('transport');
         let estateDataArr = [];
         let transportDataArr = [];
         let moneyDataArr = [];
+
+        document.getElementById('main-info').innerHTML = `${userData.lastname} ${userData.firstname} ${userData.middlename} <br/> <small>${userData.workPost}</small>`;
 
         /*
             REAL ESTATE
@@ -50,7 +53,7 @@
             let ownerName;
             
             if (ownerId === '1') {
-                ownerName = '---';
+                ownerName = '';
             } else if (relative) {
                 ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
             } else {
@@ -59,7 +62,7 @@
 
             estateDataArr.push(`
                 <tr>
-                    <td>${estateItem.objectType}</td>
+                    <td>${estateItem.objectType} ${estateItem.otherObjectType}</td>
                     <td>${estateItem.totalArea}</td>
                     <td>${owner.ownershipType}</td>
                     <td>${owner['percent-ownership']}</td>
@@ -83,7 +86,7 @@
             let ownerName;
             
             if (ownerId === '1') {
-                ownerName = '---';
+                ownerName = '';
             } else if (relative) {
                 ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
             } else {
@@ -96,7 +99,7 @@
 
             transportDataArr.push(`
                 <tr>
-                    <td>${transportItem.objectType}</td>
+                    <td>${transportItem.objectType} ${transportItem.otherObjectType}</td>
                     <td>${transportItem.brand} ${transportItem.model}</td>
                     <td>${transportItem.graduationYear}</td>
                     <td>${owner.ownershipType}</td>
@@ -120,7 +123,7 @@
             let ownerName;
             
             if (ownerId === '1') {
-                ownerName = '---';
+                ownerName = '';
             } else if (relative) {
                 ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
             } else {
@@ -133,7 +136,7 @@
                 <tr>
                     <td>${moneyItem.source_citizen}</td>
                     <td>${moneyItem.source_ua_company_name} ${moneyItem.source_eng_company_name} ${moneyItem.source_ua_lastname} ${moneyItem.source_ua_firstname} ${moneyItem.source_ua_middlename}</td>
-                    <td>${moneyItem.objectType} <br/> ${moneyItem.otherObjectType}</td>
+                    <td>${moneyItem.objectType} ${moneyItem.otherObjectType}</td>
                     <td>${moneyItem.sizeIncome}</td>
                     <td>${ownerName}</td>
                 </tr>
