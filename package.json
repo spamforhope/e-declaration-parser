@@ -1,9 +1,9 @@
 {
   "name": "e-declaration",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ukraine e-declaration parser for easy reading and calculating",
   "scripts": {
-    "start": "PORT=8001 nodemon ./bin/www",
+    "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1",
     "win": "nodemon ./bin/www"
   },
