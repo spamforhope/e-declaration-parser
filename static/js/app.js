@@ -60,7 +60,7 @@
             let ownerName;
             
             if (ownerId === '1') {
-                ownerName = '';
+                ownerName = 'декларант';
             } else if (relative) {
                 ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
             } else {
@@ -92,7 +92,7 @@
             let ownerName;
             
             if (ownerId === '1') {
-                ownerName = '';
+                ownerName = 'декларант';
             } else if (relative) {
                 ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
             } else {
@@ -128,7 +128,7 @@
             let ownerName;
             
             if (ownerId === '1') {
-                ownerName = '';
+                ownerName = 'декларант';
             } else if (relative) {
                 ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
             } else {
