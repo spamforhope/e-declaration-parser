@@ -9,9 +9,12 @@
   margin: 20px auto;
   width: 40px;
   height: 40px;
-  position: relative;
-  -webkit-transform: rotateZ(45deg);
-          transform: rotateZ(45deg);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .sk-folding-cube .sk-cube {

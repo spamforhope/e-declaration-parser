@@ -6,19 +6,20 @@ const express = require('express'),
       methodOverride = require('method-override'),
       axios = require('axios'),
       app = express(),
-      API_URL = 'https://public-api.nazk.gov.ua/v1/declaration';
+      NAZK_API_URL = 'https://public-api.nazk.gov.ua/v1/declaration',
+      NBU_API_URL = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange';
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname + '/static')));
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(methodOverride("_method"));
+app.use(methodOverride('_method'));
 
 const errorHandler = error => console.log('API_ERROR', error);
 
 function callNazkApi (items) {
-  return Promise.all(items.map(item => axios.get(`${API_URL}/${item.id}`).then(response => response.data)));
+  return Promise.all(items.map(item => axios.get(`${NAZK_API_URL}/${item.id}`).then(response => response.data).catch(err => {console.log(err); return err;})));
 }
 
 app.get('/', (req, res) => {
@@ -26,7 +27,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/search/:name', (req, res) => {
-  axios.get(API_URL, {params: {q: req.params.name}}).then(response => {
+  axios.get(NAZK_API_URL, {params: {q: req.params.name}}).then(response => {
     if (response.data.items) {
       callNazkApi(response.data.items).then(result => {
         const declarations = [];
@@ -59,7 +60,15 @@ app.get('/search/:name', (req, res) => {
     errorHandler(err);
     res.status(404).send();
   });
+});
 
+app.get('/exchange-rates', (req, res) => {
+  axios.get(NBU_API_URL, {params: {json: true}})
+    .then(response => res.send(response.data))
+    .catch(err => {
+      errorHandler(err);
+      res.status(err.status).send(err.data);
+    });
 });
 
 // catch 404 and forward to error handler

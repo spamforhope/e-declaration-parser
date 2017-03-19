@@ -91,7 +91,24 @@
             <section>
                 <h1>Грошові активи</h1>
 
-                <h3>Сума: <span id="exchange-money-amount"></span></h3>
+                <h3>
+                    Сума: <span id="exchange-money-amount"></span> грн. (по курсу НБУ станом на <span id="date"></span>)
+                </h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Установа, в якій відкриті такі рахунки <br> або до якої зроблені внески</th>
+                            <th>Вид активу</th>
+                            <th>Розмір активу</th>
+                            <th>Валюта</th>
+                            <th>Актив в грн. по курсу НБУ</th>
+                            <th>Власник</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exchange-money">
+                    </tbody>
+                </table>
             </section>
         </section>
     </section>
