@@ -1,6 +1,4 @@
 (function () {
-    console.info('App started!');
-    
     let   NBU_RATES = [];
     const $form = $('#search-form');
     const $loader = $('#loader');
@@ -22,6 +20,8 @@
 
     $form.on('submit', (e) => {
         e.preventDefault();
+
+        $realEstateTable.DataTable().destroy();
 
         if (!NBU_RATES.length) {
             return false;
@@ -295,14 +295,12 @@
         $('#exchange-money').html(exchangeMoneyDataArr.toString());
         $('#valuable-property').html(valuableDataArr.toString());
 
-        if (!$realEstateTable.hasClass('dataTable')) {
-            $realEstateTable.DataTable({
-                'paging':   false,
-                'ordering': true,
-                'info':     false,
-                'searching':   false
-            });
-        }
+        $realEstateTable.DataTable({
+            'paging':   false,
+            'ordering': true,
+            'info':     false,
+            'searching':   false
+        });
         
         $('.collapse').collapse({
             toggle: false
