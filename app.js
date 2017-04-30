@@ -68,7 +68,7 @@ app.get('/search/:name', (req, res) => {
           return new Date(secondDate).getTime() - new Date(firstDate).getTime();
         });
 
-        res.send({declaration: declarations[0].data, specifications});
+        res.send({id: declarations[0].id, declaration: declarations[0].data, specifications, date: declarations[0].created_date});
       });
     } else {
       res.status(404).send();

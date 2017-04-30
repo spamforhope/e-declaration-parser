@@ -44,15 +44,17 @@
                 $loader.addClass('hidden');
                 console.log(response);
 
-                parseData(response.data.declaration);
+                parseData(response.data);
                 $input.val('');
             })
             .catch(errorHandler);
     });
 
-    function parseData (data) {
+    function parseData (collection) {
+        const data = collection.declaration;
         const date = new Date();
         const dateString = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+        // const releaseDate;
         const userData = data.step_1;
         const $transportTable = $('#transport');
         let estateDataArr = [];
@@ -60,11 +62,19 @@
         let moneyDataArr = [];
         let exchangeMoneyDataArr = [];
 
-        $('#main-info').html(`${userData.lastname} ${userData.firstname} ${userData.middlename} <br/> <small>${userData.workPost}</small>`);
+        $('#declaration-link').attr('href', `https://public.nazk.gov.ua/declaration/${collection.id}`);
+        $('#declaration-year').text(data.step_0.declarationYear1);
+        $('#release-date').text(collection.date);
+        $('#main-info').html(
+            `${userData.lastname} ${userData.firstname} ${userData.middlename} <br/>
+            <small>${userData.workPost}, ${userData.workPlace}</small>`
+        );
 
         /*
             REAL ESTATE
          */
+        let totalLandPlot = 0;
+        let totalBuildings = 0;
         for (let key in data.step_3) {
             const estateItem = data.step_3[key];
 
@@ -80,6 +90,17 @@
             } else {
                 ownerName = `${owner.ua_company_name} ${owner.ua_lastname} ${owner.ua_firstname} ${owner.ua_middlename}`;
             }
+
+            if (owner.ownershipType !== 'Оренда') {
+                let value = (estateItem.totalArea.indexOf(',') === -1) ? +estateItem.totalArea : +estateItem.totalArea.replace(',', '.');
+
+                if (estateItem.objectType === 'Земельна ділянка') {
+                    totalLandPlot += value;
+                } else {
+                    totalBuildings += value;
+                }
+            }
+
 
             estateDataArr.push(`
                 <tr>
@@ -216,6 +237,8 @@
         /*
             Display all data
          */
+        $('#land-plot-amount').text(totalLandPlot);
+        $('#buildings-amount').text(totalBuildings.toFixed(2));
         $('#transport-amount').text(Object.keys(data.step_6).length);
         $('#my-transport-amount').text(ownerCounter);
         $('#money-amount').text(totalMoney);
