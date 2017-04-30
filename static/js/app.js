@@ -60,6 +60,7 @@
         let transportDataArr = [];
         let moneyDataArr = [];
         let exchangeMoneyDataArr = [];
+        let valuableDataArr = [];
 
         $('#declaration-link').attr('href', `https://public.nazk.gov.ua/declaration/${collection.id}`);
         $('#declaration-year').text(data.step_0.declarationYear1);
@@ -234,6 +235,38 @@
         }
 
         /*
+            VALUABLE PROPERTY
+         */
+        let valuableCost = 0;
+
+        for (let key in data.step_5) {
+            const property = data.step_5[key];
+
+            let ownerName;
+            const ownerId = Object.keys(property.rights)[0].toString();
+            const owner = property.rights[ownerId];
+            const relative = data.step_2[ownerId];
+            
+            if (ownerId === '1') {
+                ownerName = 'декларант';
+            } else if (relative) {
+                ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
+            } else {
+                ownerName = `${owner.ua_company_name} ${owner.ua_lastname} ${owner.ua_firstname} ${owner.ua_middlename}`;
+            }
+
+            valuableDataArr.push(`
+                <tr>
+                    <td>${property.objectType} ${property.otherObjectType}</td>
+                    <td>${property.manufacturerName} ${property.trademark}</td>
+                    <td>${property.propertyDescr}</td>
+                    <td>${property.costDateUse}</td>
+                    <td>${ownerName}</td>
+                </tr>
+            `);
+        }
+
+        /*
             Display all data
          */
         $('#land-plot-amount').text(totalLandPlot);
@@ -257,6 +290,7 @@
         $('#transport').html(transportDataArr.toString());
         $('#money').html(moneyDataArr.toString());
         $('#exchange-money').html(exchangeMoneyDataArr.toString());
+        $('#valuable-property').html(valuableDataArr.toString());
 
         if (!$realEstateTable.hasClass('dataTable')) {
             $realEstateTable.DataTable({
