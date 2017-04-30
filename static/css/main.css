@@ -6,6 +6,10 @@ a:hover {
   cursor: pointer;
 }
 
+.summary-table th {
+  text-align: center;
+}
+
 /*
   LOADER
  */

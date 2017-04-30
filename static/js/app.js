@@ -54,7 +54,6 @@
         const data = collection.declaration;
         const date = new Date();
         const dateString = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-        // const releaseDate;
         const userData = data.step_1;
         const $transportTable = $('#transport');
         let estateDataArr = [];
@@ -245,6 +244,15 @@
         $('#exchange-money-amount').text(totalExchangeMoney.toFixed(0));
         $('#date').text(dateString);
 
+        $('#summary-table').html(`
+            <tr>
+                <td>${totalBuildings.toFixed(2)}</td>
+                <td>${totalLandPlot}</td>
+                <td>${ownerCounter}</td>
+                <td>${totalExchangeMoney.toFixed(0)}</td>
+                <td>${totalMoney}</td>
+            </tr>
+        `);
         $('#real-estate').html(estateDataArr.toString());
         $('#transport').html(transportDataArr.toString());
         $('#money').html(moneyDataArr.toString());
