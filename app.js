@@ -6,6 +6,7 @@ const express = require('express'),
       methodOverride = require('method-override'),
       axios = require('axios'),
       app = express(),
+      async = require('async'),
       NAZK_API_URL = 'https://public-api.nazk.gov.ua/v1/declaration',
       NBU_API_URL = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange';
 
@@ -17,9 +18,18 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
 const errorHandler = error => console.log('API_ERROR', error);
+let ApiTasks = [];
 
-function callNazkApi (items) {
-  return Promise.all(items.map(item => axios.get(`${NAZK_API_URL}/${item.id}`).then(response => response.data).catch(err => {console.log(err); return err;})));
+function createApiTasks (items) {
+  ApiTasks = [];
+
+  items.forEach(doc => {
+    ApiTasks.push(function (callback) {
+      axios.get(`${NAZK_API_URL}/${doc.id}`)
+        .then(response => callback(null, response.data))
+        .catch(err => callback(err));
+    });
+  });
 }
 
 app.get('/', (req, res) => {
@@ -29,7 +39,14 @@ app.get('/', (req, res) => {
 app.get('/search/:name', (req, res) => {
   axios.get(NAZK_API_URL, {params: {q: req.params.name}}).then(response => {
     if (response.data.items) {
-      callNazkApi(response.data.items).then(result => {
+      createApiTasks(response.data.items);
+
+      async.parallelLimit(ApiTasks, 1, (error, result) => {
+        if (error) {
+          errorHandler(err);
+          res.status(404).send(err);
+        }
+
         const declarations = [];
         const specifications = [];
 
@@ -52,7 +69,7 @@ app.get('/search/:name', (req, res) => {
         });
 
         res.send({declaration: declarations[0].data, specifications});
-      }).catch(err => res.send(err));
+      });
     } else {
       res.status(404).send();
     }
