@@ -5,6 +5,7 @@
     const $form = $('#search-form');
     const $loader = $('#loader');
     const $results = $('#results');
+    const $footer = $('#footer');
     const $realEstateTable = $('#real-estate-table');
     const $input = $('#name-input');
 
@@ -35,13 +36,15 @@
         value = value.replace(/ /g, '+');
 
         $form.addClass('hidden');
-        $loader.removeClass('hidden');
         $results.addClass('hidden');
+        $footer.addClass('hidden');
+        $loader.removeClass('hidden');
 
         axios.get(`/search/${value}`)
             .then(response => {
-                $form.removeClass('hidden');
                 $loader.addClass('hidden');
+                $form.removeClass('hidden');
+                $footer.removeClass('hidden');
                 console.log(response);
 
                 parseData(response.data);
@@ -304,7 +307,7 @@
         $('.collapse').collapse({
             toggle: false
         });
-        
+
         $results.removeClass('hidden');
     }
 }());

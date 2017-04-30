@@ -1,1 +1,1 @@
-# e-declaration
+# Ukrainian declaration parser

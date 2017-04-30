@@ -1,5 +1,10 @@
+.info {
+  padding: 5px;
+  text-align: right;
+}
+
 .actions {
-  margin: 50px 0;
+  margin: 30px 0 50px;
 }
 
 a:hover {
@@ -16,6 +21,17 @@ a:hover {
 
 .panel-title h3 {
   margin-top: 0;
+}
+
+.footer-wrapper {
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.footer-logo {
+  margin-bottom: 5px;
+  max-width: 45px;
 }
 
 /*
