@@ -50,113 +50,166 @@
                 </tbody>
             </table>
             
-            <section>
-                <h1>Нерухомість</h1>
-                <h3>
-                    Земельні ділянки: <span id="land-plot-amount"></span> м<sup>2</sup> <br/>
-                    Будівлі: <span id="buildings-amount"></span> м<sup>2</sup>
-                </h3>
+            <div class="panel-group" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <div class="panel-title" data-toggle="collapse" data-target="#estate-collapse" aria-expanded="true" aria-controls="estate-collapse">
+                            <h3>
+                                Нерухомість
+                            </h3>
+                            <h5>
+                                Земельні ділянки: <span id="land-plot-amount"></span> м<sup>2</sup> <br/>
+                                Будівлі: <span id="buildings-amount"></span> м<sup>2</sup>
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="estate-collapse" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <section>
+                                <table class="table table-hover" id="real-estate-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Вид об'єкта</th>
+                                            <th>Загальна площа (м<sup>2</sup>)</th>
+                                            <th>Тип права</th>
+                                            <th>% власності</th>
+                                            <th>Власник</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="real-estate">
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+                </div>
 
-                <table class="table table-hover" id="real-estate-table">
-                    <thead>
-                        <tr>
-                            <th>Вид об'єкта</th>
-                            <th>Загальна площа (м<sup>2</sup>)</th>
-                            <th>Тип права</th>
-                            <th>% власності</th>
-                            <th>Власник</th>
-                        </tr>
-                    </thead>
-                    <tbody id="real-estate">
-                    </tbody>
-                </table>
-            </section>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <div class="panel-title" data-toggle="collapse" data-target="#transport-collapse" aria-expanded="true" aria-controls="transport-collapse">
+                            <h3>
+                                Транспортні засоби
+                            </h3>
+                            <h5>
+                                К-сть: <span id="transport-amount"></span>, в т.ч у власності: <span id="my-transport-amount"></span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="transport-collapse" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Вид об'єкта</th>
+                                        <th>Марка + модель</th>
+                                        <th>Рік випуску</th>
+                                        <th>Тип права</th>
+                                        <th>Власник</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transport">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-            <section>
-                <h1>Транспортні засоби</h1>
-                <h3>
-                    К-сть: <span id="transport-amount"></span>, в т.ч у власності: <span id="my-transport-amount"></span>
-                </h3>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <div class="panel-title" data-toggle="collapse" data-target="#money-collapse" aria-expanded="true" aria-controls="money-collapse">
+                            <h3>
+                                Доходи
+                            </h3>
+                            <h5>
+                                Сума: <span id="money-amount"></span> грн.
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="money-collapse" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Джерело доходу</th>
+                                        <th>Найменування</th>
+                                        <th>Вид доходу</th>
+                                        <th>Розмір (грн.)</th>
+                                        <th>Отримувач доходів</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="money">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Вид об'єкта</th>
-                            <th>Марка + модель</th>
-                            <th>Рік випуску</th>
-                            <th>Тип права</th>
-                            <th>Власник</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transport">
-                    </tbody>
-                </table>
-            </section>
 
-            <section>
-                <h1>Доходи</h1>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <div class="panel-title" data-toggle="collapse" data-target="#exchange-money-collapse" aria-expanded="true" aria-controls="exchange-money-collapse">
+                            <h3>
+                                Грошові активи
+                            </h3>
+                            <h5>
+                                Сума: <span id="exchange-money-amount"></span> грн. (по курсу НБУ станом на <span id="date"></span>)
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="exchange-money-collapse" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Установа, в якій відкриті такі рахунки <br> або до якої зроблені внески</th>
+                                        <th>Вид активу</th>
+                                        <th>Розмір активу</th>
+                                        <th>Валюта</th>
+                                        <th>Актив в грн. по курсу НБУ</th>
+                                        <th>Власник</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="exchange-money">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-                <h3>Сума: <span id="money-amount"></span> грн.</h3>
-
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Джерело доходу</th>
-                            <th>Найменування</th>
-                            <th>Вид доходу</th>
-                            <th>Розмір (грн.)</th>
-                            <th>Отримувач доходів</th>
-                        </tr>
-                    </thead>
-                    <tbody id="money">
-                    </tbody>
-                </table>
-            </section>
-
-            <section>
-                <h1>Грошові активи</h1>
-
-                <h3>
-                    Сума: <span id="exchange-money-amount"></span> грн. (по курсу НБУ станом на <span id="date"></span>)
-                </h3>
-
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Установа, в якій відкриті такі рахунки <br> або до якої зроблені внески</th>
-                            <th>Вид активу</th>
-                            <th>Розмір активу</th>
-                            <th>Валюта</th>
-                            <th>Актив в грн. по курсу НБУ</th>
-                            <th>Власник</th>
-                        </tr>
-                    </thead>
-                    <tbody id="exchange-money">
-                    </tbody>
-                </table>
-            </section>
-
-            <section>
-                <h1>Цінне рухоме майно (крім ТЗ)</h1>
-
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Вид об'єкта</th>
-                            <th>Торгова марка</th>
-                            <th>Опис майна</th>
-                            <th>Вартість (грн.)</th>
-                            <th>Власник</th>
-                        </tr>
-                    </thead>
-                    <tbody id="valuable-property">
-                    </tbody>
-                </table>
-            </section>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <div class="panel-title" data-toggle="collapse" data-target="#valuable-collapse" aria-expanded="true" aria-controls="valuable-collapse">
+                            <h3>
+                                Цінне рухоме майно (крім ТЗ)
+                            </h3>
+                        </div>
+                    </div>
+                    <div id="valuable-collapse" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Вид об'єкта</th>
+                                        <th>Торгова марка</th>
+                                        <th>Опис майна</th>
+                                        <th>Вартість (грн.)</th>
+                                        <th>Власник</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="valuable-property">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
         </section>
     </section>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script src="js/app.js"></script>

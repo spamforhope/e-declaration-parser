@@ -10,6 +10,14 @@ a:hover {
   text-align: center;
 }
 
+.panel-title {
+  cursor: pointer;
+}
+
+.panel-title h3 {
+  margin-top: 0;
+}
+
 /*
   LOADER
  */

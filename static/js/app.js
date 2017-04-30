@@ -301,6 +301,10 @@
             });
         }
         
+        $('.collapse').collapse({
+            toggle: false
+        });
+        
         $results.removeClass('hidden');
     }
 }());
