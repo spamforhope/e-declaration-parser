@@ -272,7 +272,7 @@
         /*
             Display all data
          */
-        $('#land-plot-amount').text(totalLandPlot);
+        $('#land-plot-amount').text(totalLandPlot.toFixed(2));
         $('#buildings-amount').text(totalBuildings.toFixed(2));
         $('#transport-amount').text(Object.keys(data.step_6).length);
         $('#my-transport-amount').text(ownerCounter);
@@ -283,7 +283,7 @@
         $('#summary-table').html(`
             <tr>
                 <td>${totalBuildings.toFixed(2)}</td>
-                <td>${totalLandPlot}</td>
+                <td>${totalLandPlot.toFixed(2)}</td>
                 <td>${ownerCounter}</td>
                 <td>${totalExchangeMoney.toFixed(0)}</td>
                 <td>${totalMoney}</td>
