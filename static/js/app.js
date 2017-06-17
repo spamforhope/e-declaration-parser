@@ -53,6 +53,10 @@
             .catch(errorHandler);
     });
 
+    function checkLandOption(str) {
+        return /земельна/ig.test(str);
+    }
+
     function parseData (collection) {
         const data = collection.declaration;
         const date = new Date();
@@ -97,7 +101,7 @@
             if (owner.ownershipType !== 'Оренда') {
                 let value = (estateItem.totalArea.indexOf(',') === -1) ? +estateItem.totalArea : +estateItem.totalArea.replace(',', '.');
 
-                if (estateItem.objectType === 'Земельна ділянка') {
+                if (checkLandOption(estateItem.objectType) || checkLandOption(estateItem.otherObjectType)) {
                     totalLandPlot += value;
                 } else {
                     totalBuildings += value;
