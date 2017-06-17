@@ -57,10 +57,6 @@
             .catch(errorHandler);
     });
 
-    function checkLandOption(str) {
-        return /земельна/ig.test(str);
-    }
-
     function parseData (collection) {
         const data = collection.declaration;
         const date = new Date();
