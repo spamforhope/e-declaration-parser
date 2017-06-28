@@ -62,7 +62,6 @@
         const date = new Date();
         const dateString = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
         const userData = data.step_1;
-        const $transportTable = $('#transport');
         let estateDataArr = [];
         let transportDataArr = [];
         let moneyDataArr = [];
@@ -77,17 +76,11 @@
             <small>${userData.workPost}, ${userData.workPlace}</small>`
         );
 
-        /*
-            REAL ESTATE
-         */
-        let totalLandPlot = 0;
-        let totalBuildings = 0;
-        for (let key in data.step_3) {
-            const estateItem = data.step_3[key];
-
+        // helper function to parse owner name on every type of data
+        function parseOwner (item) {
             let ownerName;
-            const ownerId = Object.keys(estateItem.rights)[0].toString();
-            const owner = estateItem.rights[ownerId];
+            const ownerId = Object.keys(item.rights)[0].toString();
+            const owner = item.rights[ownerId];
             const relative = data.step_2[ownerId];
             
             if (ownerId === '1') {
@@ -97,6 +90,20 @@
             } else {
                 ownerName = `${owner.ua_company_name} ${owner.ua_lastname} ${owner.ua_firstname} ${owner.ua_middlename}`;
             }
+
+            return ownerName;
+        }
+
+        /*
+            REAL ESTATE
+         */
+        let totalLandPlot = 0;
+        let totalBuildings = 0;
+        for (let key in data.step_3) {
+            const estateItem = data.step_3[key];
+            const ownerName = parseOwner(estateItem);
+            const ownerId = Object.keys(estateItem.rights)[0].toString();
+            const owner = estateItem.rights[ownerId];
 
             if (owner.ownershipType !== 'Оренда') {
                 let value = (estateItem.totalArea.indexOf(',') === -1) ? +estateItem.totalArea : +estateItem.totalArea.replace(',', '.');
@@ -127,19 +134,9 @@
 
         for (let key in data.step_6) {
             const transportItem = data.step_6[key];
-
-            let ownerName;
+            const ownerName = parseData(transportItem);
             const ownerId = Object.keys(transportItem.rights)[0].toString();
             const owner = transportItem.rights[ownerId];
-            const relative = data.step_2[ownerId];
-            
-            if (ownerId === '1') {
-                ownerName = 'декларант';
-            } else if (relative) {
-                ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
-            } else {
-                ownerName = `${owner.ua_company_name} ${owner.ua_lastname} ${owner.ua_firstname} ${owner.ua_middlename}`;
-            }
 
             if (owner.ownershipType === 'Власність') {
                 ownerCounter++;
@@ -163,19 +160,7 @@
 
         for (let key in data.step_11) {
             const moneyItem = data.step_11[key];
-
-            let ownerName;
-            const ownerId = Object.keys(moneyItem.rights)[0].toString();
-            const owner = moneyItem.rights[ownerId];
-            const relative = data.step_2[ownerId];
-            
-            if (ownerId === '1') {
-                ownerName = 'декларант';
-            } else if (relative) {
-                ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
-            } else {
-                ownerName = `${owner.ua_company_name} ${owner.ua_lastname} ${owner.ua_firstname} ${owner.ua_middlename}`;
-            }
+            const ownerName = parseOwner(moneyItem);
 
             totalMoney += +moneyItem.sizeIncome;
 
@@ -197,13 +182,9 @@
 
         for (let key in data.step_12) {
             const moneyItem = data.step_12[key];
-
-            let ownerName;
             let rateObj;
             let currencyInUah = '';
-            const ownerId = Object.keys(moneyItem.rights)[0].toString();
-            const owner = moneyItem.rights[ownerId];
-            const relative = data.step_2[ownerId];
+            const ownerName = parseOwner(moneyItem);
             const currency = moneyItem.assetsCurrency;
             const size = +moneyItem.sizeAssets;
 
@@ -214,14 +195,6 @@
                 currencyInUah = currencyInUah.toFixed(0);
             } else {
                 totalExchangeMoney += size;
-            }
-
-            if (ownerId === '1') {
-                ownerName = 'декларант';
-            } else if (relative) {
-                ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
-            } else {
-                ownerName = `${owner.ua_company_name} ${owner.ua_lastname} ${owner.ua_firstname} ${owner.ua_middlename}`;
             }
 
             exchangeMoneyDataArr.push(`
@@ -248,19 +221,7 @@
 
         for (let key in data.step_5) {
             const property = data.step_5[key];
-
-            let ownerName;
-            const ownerId = Object.keys(property.rights)[0].toString();
-            const owner = property.rights[ownerId];
-            const relative = data.step_2[ownerId];
-            
-            if (ownerId === '1') {
-                ownerName = 'декларант';
-            } else if (relative) {
-                ownerName = `${relative.subjectRelation}: ${relative.lastname} ${relative.firstname} ${relative.middlename}`;
-            } else {
-                ownerName = `${owner.ua_company_name} ${owner.ua_lastname} ${owner.ua_firstname} ${owner.ua_middlename}`;
-            }
+            const ownerName = parseOwner(property);
 
             valuableDataArr.push(`
                 <tr>
