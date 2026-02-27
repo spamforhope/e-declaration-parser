@@ -43,8 +43,8 @@ app.get('/search/:name', (req, res) => {
 
       async.parallelLimit(ApiTasks, 1, (error, result) => {
         if (error) {
-          errorHandler(err);
-          res.status(404).send(err);
+          errorHandler(error);
+          res.status(404).send(error);
         }
 
         const declarations = [];
@@ -84,7 +84,9 @@ app.get('/exchange-rates', (req, res) => {
     .then(response => res.send(response.data))
     .catch(err => {
       errorHandler(err);
-      res.status(err.status).send(err.data);
+      const status = err.response ? err.response.status : 500;
+      const data = err.response ? err.response.data : 'Internal Server Error';
+      res.status(status).send(data);
     });
 });
 
